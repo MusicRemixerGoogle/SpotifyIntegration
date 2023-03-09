@@ -20,7 +20,7 @@ def getTop10(genre) -> list:
     tracks = playlistTracks["items"]
     # return an array of tracks
     tracks = [track["track"]["name"] for track in tracks]
-
+    return tracks
 
 
 def getTrackKey(trackNames) -> list:
