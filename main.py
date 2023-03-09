@@ -29,15 +29,16 @@ def getTrackKey(trackNames) -> list:
         trackID = sp.search(track, type="track", limit=1)
         trackID = trackID["tracks"]["items"][0]["id"]
 
-        trackKey = sp.audio_features(trackID)
-        trackKey = trackKey[0]["key"]
-        trackLiveness = trackKey[0]["liveness"]
-        trackTimeSignature = trackKey[0]["time_signature"]
-        trackTempo = trackKey[0]["tempo"]
-        trackMode = trackKey[0]["mode"]
+        trackDetails = sp.audio_features(trackID)
+        trackKey = trackDetails[0]["key"]
+        trackLiveness = trackDetails[0]["liveness"]
+        trackTimeSignature = trackDetails[0]["time_signature"]
+        trackTempo = trackDetails[0]["tempo"]
+        trackMode = trackDetails[0]["mode"]
 
         trackInfo.append(
             {
+                "name": track,
                 "key": trackKey,
                 "liveness": trackLiveness,
                 "time_signature": trackTimeSignature,
@@ -45,6 +46,6 @@ def getTrackKey(trackNames) -> list:
                 "mode": trackMode,
             })
 
-    return trackKeys
+    return trackInfo
 
 print(getTrackKey(getTop10("pop")))
