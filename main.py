@@ -1,4 +1,4 @@
-import requests
+import math
 import dotenv
 import os
 import spotipy
@@ -23,7 +23,7 @@ def getTop10(genre) -> list:
     return tracks
 
 
-def getTrackKey(trackNames) -> list:
+def getTracksInfo(trackNames) -> list:
     trackInfo = []
     for track in trackNames:
         trackID = sp.search(track, type="track", limit=1)
@@ -31,16 +31,16 @@ def getTrackKey(trackNames) -> list:
 
         trackDetails = sp.audio_features(trackID)
         trackKey = trackDetails[0]["key"]
-        trackLiveness = trackDetails[0]["liveness"]
         trackTimeSignature = trackDetails[0]["time_signature"]
         trackTempo = trackDetails[0]["tempo"]
         trackMode = trackDetails[0]["mode"]
+        trackDanceability = trackDetails[0]["danceability"]
 
         trackInfo.append(
             {
                 "name": track,
                 "key": trackKey,
-                "liveness": trackLiveness,
+                "danceability": trackDanceability,
                 "time_signature": trackTimeSignature,
                 "tempo": trackTempo,
                 "mode": trackMode,
@@ -48,4 +48,26 @@ def getTrackKey(trackNames) -> list:
 
     return trackInfo
 
-print(getTrackKey(getTop10("pop")))
+
+pop = getTracksInfo(getTop10("pop"))
+print(pop)
+
+def getAvgDanceability(trackInfo) -> int:
+    total = 0
+    for track in trackInfo:
+        total += track["danceability"] * 10 # danceability btwn 0 and 1, so we multiply by 10 to get a whole number
+    return total / 10
+
+
+def getAvgKey(trackInfo) -> int:
+    total = 0
+    for track in trackInfo:
+        total += track["key"]
+    if getAvgDanceability(trackInfo) >= 5 : # we want to round up if the average danceability is greater than 5
+        return math.ceil(total / 10)
+    return total // 10
+
+
+print (getAvgKey(pop))
+
+
