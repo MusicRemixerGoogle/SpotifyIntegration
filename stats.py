@@ -92,6 +92,23 @@ def getAvgKey(trackInfo) -> int:
         return math.ceil(total / len(trackInfo))
     return total // len(trackInfo)
 
+
+def getAvgTempo(trackInfo) -> int:
+    total = 0
+    for track in trackInfo:
+        total += track["tempo"]
+    if getAvgDanceability(trackInfo) >= 5 : # we want to round up if the average danceability is greater than 5
+        return math.ceil(total / len(trackInfo))
+    return total // len(trackInfo)
+
+def getAvgTimeSignature(trackInfo) -> int:
+    total = 0
+    for track in trackInfo:
+        total += track["time_signature"]
+    if getAvgDanceability(trackInfo) >= 5 : # we want to round up if the average danceability is greater than 5
+        return math.ceil(total / len(trackInfo))
+    return total // len(trackInfo)
+
 slowDancingInTheDark = getSingleTrack("Slow Dancing in the Dark")
 rivers = getSingleTrack("Rivers in the Desert")
 #print(slowDancingInTheDark)

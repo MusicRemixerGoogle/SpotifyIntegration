@@ -23,3 +23,6 @@ time, frequency, confidence, activation = crepe.predict(y, sr, viterbi=True)
 notes = [midi_to_note(frequency[i]) for i in range(len(frequency))]
 
 print(notes)
+with open("notes.txt", "w", encoding='utf-8') as f:
+    for note in notes:
+        f.write(note + " ")
