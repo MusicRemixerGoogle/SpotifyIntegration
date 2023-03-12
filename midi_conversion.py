@@ -1,41 +1,49 @@
 import math
-import pygame
+import numpy as np
+NOTES = ["C", "C♯", "D", "D♯", "E", "F", "F♯", "G", "G♯", "A", "A♯", "B"]
 
-
-
-NOTE_NAMES = ['C','C♯','D','D♯','E','F','F♯','G','G♯','A','A♯','B']
-
-def notes_to_freq(notes):
-    BASE_FREQ = 440  # A4 = 440Hz
-    freqs = []
-    for note in notes:
-        print(note)
-        note_name = note[0]
-        if note[1] == "♭" or note[1] == "♯":
-            note_name = note[:2]
-        #print(1)
-        octave = int(note[-1])
-        if len(note) == 4: # check for 2-digit octave
+def noteToMidi(note):
+    """Convert a note to a MIDI number."""
+    # Get the note name and octave
+    
+    note_name = note[0]
+    # octave is everything after the note name
+    # Check if the note is of the form C♯41
+    if note[1] == "♯":
+        if len(note) > 3:
             octave = int(note[-2:])
-        #print(2)
-        #print(note_name)
-        note_index = NOTE_NAMES.index(note_name)
-        #print(3)
-        freq = BASE_FREQ * (2 ** ((note_index - 9) / 12)) * (2 ** octave)
-        #print(4)
-        freqs.append(freq)
-        print(freq)
-    return freqs
+            note_name = note[:-2]
+        else:
+            octave = int(note[-1])
+            note_name = note[:-1]
+    else:
+        octave = int(note[1:])
+
+    # Get the index of the note name in the list of notes
+    note_index = NOTES.index(note_name)
+
+    # Calculate the MIDI number
+    midi_number = (octave + 1) * 12 + note_index
+    min_note = 0
+    max_note = 127
+    scaled_note = np.interp(midi_number, (min_note, max_note), (0, 127))
+
+    int_note = int(scaled_note)
+
+    return int_note
 
 
 
 # convert the notes in notes.txt into MIDI frequencies and store them in frequencies.txt
 with open("notes.txt", "r", encoding='utf-8') as f:
     notes = f.read().split(" ")
-    freqs = notes_to_freq(notes)
     with open("frequencies.txt", "w", encoding='utf-8') as f:
-        for freq in freqs:
-            f.write(str(freq) + " ")
+        for note in notes:
+            try:
+                f.write(str(noteToMidi(note)) + " ")
+            except Exception as e:
+                print(e)
+                print(note)
 
 
 

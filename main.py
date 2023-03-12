@@ -1,41 +1,44 @@
 import mido
 
-# Set the tempo (in BPM) and the time signature
+# List of MIDI note numbers from frequencies.txt
+notes = []
+with open('frequencies.txt', 'r') as f:
+    notes = f.read().split(' ')
+
+# convert the notes to integers
+notes = [int(note) for note in notes]
+print(notes)
+
 tempo = 98
 time_signature = (3, 4)
 
-# Create a new MIDI file with one track
+# Create a new MIDI file
 mid = mido.MidiFile()
+
+# Add a new track to the MIDI file
 track = mido.MidiTrack()
 mid.tracks.append(track)
 
-# Add the time signature and set the tempo
-time_signature_msg = mido.MetaMessage('time_signature', numerator=time_signature[0], denominator=time_signature[1])
-set_tempo_msg = mido.MetaMessage('set_tempo', tempo=mido.bpm2tempo(tempo))
-track.append(time_signature_msg)
-track.append(set_tempo_msg)
+# Set the tempo (optional)
+tempo = mido.bpm2tempo(tempo)
+track.append(mido.MetaMessage('set_tempo', tempo=tempo))
 
-# Calculate the duration of one beat in ticks
-ticks_per_beat = mid.ticks_per_beat
-ticks_per_bar = ticks_per_beat * time_signature[0]
-ticks_per_sixteenth = ticks_per_beat // 4
+# Set the time signature (optional)
+time_signature = mido.MetaMessage('time_signature', numerator=3, denominator=4)
+track.append(time_signature)
 
-# Add a note-on and note-off message for each frequency
-for freq in frequencies:
-    # Calculate the duration of the note in ticks (e.g. a quarter note has a duration of ticks_per_beat)
-    duration_in_beats = 0.25
-    duration_in_ticks = int(duration_in_beats * ticks_per_beat)
+# Set the key signature (optional)
+key_signature = mido.MetaMessage('key_signature', key='F')
+track.append(key_signature)
 
-    # Calculate the MIDI note number for the frequency (rounded to the nearest integer)
-    note_number = int(round(12 * (math.log(freq / 440.0) / math.log(2)) + 69))
-
-    # Create note-on and note-off messages with the calculated values
-    note_on = mido.Message('note_on', note=note_number, velocity=64, time=0)
-    note_off = mido.Message('note_off', note=note_number, velocity=0, time=duration_in_ticks)
-
-    # Append the note-on and note-off messages to the track
+# Add notes to the track
+time = 0
+for note in notes:
+    note_on = mido.Message('note_on', note=note, velocity=64, time=0)
     track.append(note_on)
+    note_off = mido.Message('note_off', note=note, velocity=64, time=480)
     track.append(note_off)
+    time += 480
 
 # Save the MIDI file
-mid.save('my_song.mid')
+mid.save('song.mid')
