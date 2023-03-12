@@ -22,6 +22,31 @@ def getTop10(genre) -> list:
     tracks = [track["track"]["name"] for track in tracks]
     return tracks
 
+def getSingleTrack(trackName) -> list:
+
+    trackList = []
+    trackID = sp.search(trackName, type="track", limit=1)
+    trackID = trackID["tracks"]["items"][0]["id"]
+
+    trackDetails = sp.audio_features(trackID)
+    trackKey = trackDetails[0]["key"]
+    trackTimeSignature = trackDetails[0]["time_signature"]
+    trackTempo = trackDetails[0]["tempo"]
+    trackMode = trackDetails[0]["mode"]
+    trackDanceability = trackDetails[0]["danceability"]
+
+    trackInfo = {
+        "name": trackName,
+        "key": trackKey,
+        "danceability": trackDanceability,
+        "time_signature": trackTimeSignature,
+        "tempo": trackTempo,
+        "mode": trackMode,
+    }
+
+    trackList.append(trackInfo)
+    return trackList
+
 
 def getTracksInfo(trackNames) -> list:
     trackInfo = []
@@ -50,13 +75,13 @@ def getTracksInfo(trackNames) -> list:
 
 
 pop = getTracksInfo(getTop10("pop"))
-print(pop)
+#print(pop)
 
 def getAvgDanceability(trackInfo) -> int:
     total = 0
     for track in trackInfo:
         total += track["danceability"] * 10 # danceability btwn 0 and 1, so we multiply by 10 to get a whole number
-    return total / 10
+    return total / len(trackInfo)
 
 
 def getAvgKey(trackInfo) -> int:
@@ -64,10 +89,13 @@ def getAvgKey(trackInfo) -> int:
     for track in trackInfo:
         total += track["key"]
     if getAvgDanceability(trackInfo) >= 5 : # we want to round up if the average danceability is greater than 5
-        return math.ceil(total / 10)
-    return total // 10
+        return math.ceil(total / len(trackInfo))
+    return total // len(trackInfo)
 
-
+slowDancingInTheDark = getSingleTrack("Slow Dancing in the Dark")
+rivers = getSingleTrack("Rivers in the Desert")
+#print(slowDancingInTheDark)
 print (getAvgKey(pop))
+print (getAvgKey(rivers))
 
 

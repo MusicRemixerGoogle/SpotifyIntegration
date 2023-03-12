@@ -1,3 +1,8 @@
 .env
 env
 *.env
+song
+*.pyc
+*.cache
+.cache
+.pyc
