@@ -1,25 +1,8 @@
 import math
 import pygame
 
-# NOTE_NAMES = {
-#     "C": 12,
-#     "C♯": 13,
-#     "D♭": 13,
-#     "D": 14,
-#     "D♯": 15,
-#     "E♭": 15,
-#     "E": 16,
-#     "F": 17,
-#     "F♯": 18,
-#     "G♭": 18,
-#     "G": 19,
-#     "G♯": 20,
-#     "A♭": 20,
-#     "A": 21,
-#     "A♯": 22,
-#     "B♭": 22,
-#     "B": 23,
-# }
+
+
 NOTE_NAMES = ['C','C♯','D','D♯','E','F','F♯','G','G♯','A','A♯','B']
 
 def notes_to_freq(notes):
@@ -53,3 +36,6 @@ with open("notes.txt", "r", encoding='utf-8') as f:
     with open("frequencies.txt", "w", encoding='utf-8') as f:
         for freq in freqs:
             f.write(str(freq) + " ")
+
+
+

@@ -74,7 +74,7 @@ def getTracksInfo(trackNames) -> list:
     return trackInfo
 
 
-pop = getTracksInfo(getTop10("pop"))
+#pop = getTracksInfo(getTop10("pop"))
 #print(pop)
 
 def getAvgDanceability(trackInfo) -> int:
@@ -109,10 +109,14 @@ def getAvgTimeSignature(trackInfo) -> int:
         return math.ceil(total / len(trackInfo))
     return total // len(trackInfo)
 
-slowDancingInTheDark = getSingleTrack("Slow Dancing in the Dark")
-rivers = getSingleTrack("Rivers in the Desert")
-#print(slowDancingInTheDark)
-print (getAvgKey(pop))
-print (getAvgKey(rivers))
+# slowDancingInTheDark = getSingleTrack("Slow Dancing in the Dark")
+# rivers = getSingleTrack("Rivers in the Desert")
+# #print(slowDancingInTheDark)
+# print (getAvgKey(pop))
+# print (getAvgKey(rivers))
 
-
+happyBirthday = getSingleTrack("Happy Birthday to You -- Happy Birthday TA")
+print (getAvgKey(happyBirthday))
+print (getAvgTempo(happyBirthday))
+print (getAvgTimeSignature(happyBirthday))
+print (getAvgDanceability(happyBirthday))
