@@ -1,0 +1,8 @@
+# pip requirements
+mido
+numpy
+spotipy
+librosa
+pydub
+crepe
+python-dotenv
