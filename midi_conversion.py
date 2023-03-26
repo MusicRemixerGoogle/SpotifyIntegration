@@ -32,18 +32,22 @@ def noteToMidi(note):
 
     return int_note
 
+def freqToMidi(freq):
+    """Convert a frequency to a MIDI number."""
+    return 12 * (math.log2(freq / 440)) + 69 
 
 
 # convert the notes in notes.txt into MIDI frequencies and store them in frequencies.txt
-with open("notes.txt", "r", encoding='utf-8') as f:
-    notes = f.read().split(" ")
+with open("test_freq.txt", "r", encoding='utf-8') as f:
+    notes = f.read().strip().split(" ")
     with open("frequencies.txt", "w", encoding='utf-8') as f:
         for note in notes:
             try:
-                f.write(str(noteToMidi(note)) + " ")
+                f.write(str(freqToMidi(float(note))) + " ")
             except Exception as e:
                 print(e)
                 print(note)
 
 
 
+print("done")

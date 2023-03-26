@@ -24,12 +24,19 @@ if __name__ == "__main__":
 
     # Extract the pitch using the CREPE model
     time, frequency, confidence, activation = crepe.predict(y, sr, viterbi=True)
+    
+
+    # paste frequency into a text file
+    with open("test_freq.txt", "w", encoding='utf-8') as f:
+        for i in range(len(frequency)):
+            f.write((f"{time[i]}: {frequency[i]}\n"))
+    print("done!")
 
     # Convert pitches to notes
-    notes = [midi_to_note(frequency[i]) for i in range(len(frequency))]
+    #notes = [midi_to_note(frequency[i]) for i in range(len(frequency))]
 
-    print(notes)
-    with open("notes.txt", "w", encoding='utf-8') as f:
-        for note in notes:
-            f.write(note + " ")
+    #print(notes)
+    # with open("notes.txt", "w", encoding='utf-8') as f:
+    #     for note in notes:
+    #         f.write(note + " ")
 

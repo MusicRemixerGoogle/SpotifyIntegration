@@ -7,4 +7,6 @@ song
 .cache
 .pyc
 .txt
+.cache
+*.cache
 *.txt
