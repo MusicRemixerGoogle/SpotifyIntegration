@@ -38,12 +38,19 @@ def freqToMidi(freq):
 
 
 # convert the notes in notes.txt into MIDI frequencies and store them in frequencies.txt
-with open("test_freq.txt", "r", encoding='utf-8') as f:
+with open("freq_only.txt", "r", encoding='utf-8') as f:
     notes = f.read().strip().split(" ")
     with open("frequencies.txt", "w", encoding='utf-8') as f:
+        counter = 0
+        note_avg = 0
         for note in notes:
             try:
-                f.write(str(freqToMidi(float(note))) + " ")
+                note_avg += float(note)
+                counter += 1
+                if counter == 61:
+                    f.write(str(freqToMidi(note_avg/counter)) + "\n")
+                    counter = 0
+                    note_avg = 0
             except Exception as e:
                 print(e)
                 print(note)

@@ -10,3 +10,5 @@ song
 .cache
 *.cache
 *.txt
+.wav
+*.wav

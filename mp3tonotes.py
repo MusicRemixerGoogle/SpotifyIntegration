@@ -30,6 +30,15 @@ if __name__ == "__main__":
     with open("test_freq.txt", "w", encoding='utf-8') as f:
         for i in range(len(frequency)):
             f.write((f"{time[i]}: {frequency[i]}\n"))
+
+    with open("times.txt", "w", encoding='utf-8') as f:
+        for i in range(len(time)):
+            f.write((f"{time[i]}\n"))
+        
+
+    with open("freq_only.txt", "w", encoding='utf-8') as f:
+        for freq in frequency:
+            f.write(str(freq) + " ")
     print("done!")
 
     # Convert pitches to notes
