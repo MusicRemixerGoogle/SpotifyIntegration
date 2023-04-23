@@ -54,6 +54,9 @@ with open("freq_only.txt", "r", encoding='utf-8') as f:
             except Exception as e:
                 print(e)
                 print(note)
+    with open("full_midi.txt", "w", encoding='utf-8') as f:
+        for note in notes:
+            f.write(str(freqToMidi(float(note))) + "\n")
 
 
 
