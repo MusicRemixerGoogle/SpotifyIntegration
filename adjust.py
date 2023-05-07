@@ -11,7 +11,7 @@ y_mono = librosa.to_mono(y)
 
 # Modify tempo and pitch
 y_mod = librosa.effects.time_stretch(y_mono, rate=1.5) # Increase tempo by 20%
-y_mod = librosa.effects.pitch_shift(y_mod, sr, n_steps=1) # Increase pitch by 1 semitone
+y_mod = librosa.effects.pitch_shift(y=y_mod, sr=sr, n_steps=1) # Increase pitch by 1 semitone
 
 # Convert waveform to spectrogram
 n_fft = 2048
